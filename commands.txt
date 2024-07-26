@@ -1,0 +1,23 @@
+First, you must set the environment variables. They're defined in setup_core.sh file. So, run 'source setup_core.sh'.
+
+Put your custom_program.c in this path: core-v-verif/cv32e40s/tests/programs/custom/custom_program/custom_program.c
+
+To set the compilation parameters, search for C_FLAGS in core-v-verif/mk/common.mk
+
+UVM located in core-v-verif/cv32e40s/sim/uvmt
+To compile the program.c: run 'make hex TEST=hello-world USE_ISS=NO'
+To compile and simulate: run 'make test TEST=hello-world USE_ISS=NO GUI=YES'
+    The compiled files will be in core-v-verif/cv32e40s/sim/uvmt/vsim_results
+
+To simulate the core, you must have the custom_program.hex binary file in the same path where your custom_program.c is located.
+You must ignore some files indicated in core-v-verif/core-v-cores/cv32e40s/cv32e40s_manifest.flist:
+    //${DESIGN_RTL_DIR}/../bhv/include/cv32e40s_rvfi_pkg.sv
+    //${DESIGN_RTL_DIR}/../bhv/cv32e40s_wrapper.sv
+    //${DESIGN_RTL_DIR}/../bhv/cv32e40s_rvfi_instr_obi.sv
+    //${DESIGN_RTL_DIR}/../bhv/cv32e40s_rvfi_data_obi.sv
+    //${DESIGN_RTL_DIR}/../bhv/cv32e40s_rvfi.sv
+    //${DESIGN_RTL_DIR}/../bhv/cv32e40s_rvfi_sim_trace.sv
+Also, you must ignore two signals unused in the core-v-verif/cv32e40s/tb/cv32e40s_tb_wrapper.sv:
+    //.irq_ack_o              ( irq_ack               ),
+    //.irq_id_o               ( irq_id_out            ),
+To simulate, go to the path core-v-verif/cv32e40s/sim/core and run 'make questa-custom-gui CUSTOM_PROG=custom_program CUSTOM=../../tests/programs/custom'
