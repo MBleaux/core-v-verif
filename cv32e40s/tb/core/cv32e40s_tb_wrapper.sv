@@ -109,8 +109,8 @@ module cv32e40s_tb_wrapper
 
          // Interrupts verified in UVM environment
          .irq_i                  ( {32{1'b0}}            ),
-         .irq_ack_o              ( irq_ack               ),
-         .irq_id_o               ( irq_id_out            ),
+         //.irq_ack_o              ( irq_ack               ),
+         //.irq_id_o               ( irq_id_out            ),
 
          .debug_req_i            ( debug_req             ),
 
