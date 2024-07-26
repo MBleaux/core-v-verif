@@ -19,7 +19,7 @@ module cv32e40s_tb_wrapper
     #(parameter // Parameters used by TB
                 INSTR_RDATA_WIDTH = 32,
                 RAM_ADDR_WIDTH    = 20,
-                BOOT_ADDR         = 'h10,
+                BOOT_ADDR         = 'h80,
                 DM_HALTADDRESS    = 32'h1A11_0800,
                 HART_ID           = 32'h0000_0000,
                 IMP_PATCH_ID      = 4'h0
