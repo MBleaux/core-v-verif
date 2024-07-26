@@ -19,7 +19,7 @@ module cv32e40s_tb_wrapper
     #(parameter // Parameters used by TB
                 INSTR_RDATA_WIDTH = 32,
                 RAM_ADDR_WIDTH    = 20,
-                BOOT_ADDR         = 'h80,
+                BOOT_ADDR         = 'h10,
                 DM_HALTADDRESS    = 32'h1A11_0800,
                 HART_ID           = 32'h0000_0000,
                 IMP_PATCH_ID      = 4'h0
@@ -109,8 +109,8 @@ module cv32e40s_tb_wrapper
 
          // Interrupts verified in UVM environment
          .irq_i                  ( {32{1'b0}}            ),
-         .irq_ack_o              ( irq_ack               ),
-         .irq_id_o               ( irq_id_out            ),
+         //.irq_ack_o              ( irq_ack               ),
+         //.irq_id_o               ( irq_id_out            ),
 
          .debug_req_i            ( debug_req             ),
 

@@ -328,7 +328,8 @@ RISCV_MARCH      = $(CV_SW_MARCH)
 RISCV_CC         = $(CV_SW_CC)
 RISCV_CFLAGS     = $(CV_SW_CFLAGS)
 
-CFLAGS ?= -Os -g -static -mabi=ilp32 -march=$(RISCV_MARCH) -Wall -pedantic $(RISCV_CFLAGS)
+#CFLAGS ?= -Os -g -static -mabi=ilp32 -march=$(RISCV_MARCH) -Wall -pedantic $(RISCV_CFLAGS) -Wl,--gc-sections -ffunction-sections -fdata-sections ### versão anterior com +/- 128 linhas de comando
+CFLAGS ?= -Og -g -static -mabi=ilp32 -march=$(RISCV_MARCH) -Wall -Wextra -pedantic $(RISCV_CFLAGS) -ffreestanding -w -Wl,--gc-sections -nostartfiles -nostdlib -nodefaultlibs -Ibsp #-fdump-rtl-all
 
 $(warning RISCV set to $(RISCV))
 $(warning RISCV_PREFIX set to $(RISCV_PREFIX))
@@ -513,7 +514,7 @@ else
 		$(TEST_FILES) \
 		-T $(LD_FILE) \
 		$(LD_LIBRARY) \
-		-lcv-verif
+		-lcv-verif -lc -lgcc
 endif
 
 .PHONY: hex

@@ -5,8 +5,8 @@ RISCV_CC         ?= gcc
 RISCV_GCC = $(RISCV_EXE_PREFIX)$(RISCV_CC)
 RISCV_AR = $(RISCV_EXE_PREFIX)ar
 RISCV_MARCH ?= rv32im_zca
-SRC = crt0.S handlers.S syscalls.c vectors.S
-OBJ = crt0.o handlers.o syscalls.o vectors.o
+SRC = crt0.S  syscalls.c vectors.S #handlers.S handlers.o
+OBJ = crt0.o  syscalls.o vectors.o
 LIBCV-VERIF = libcv-verif.a
 CFLAGS ?= -Os -g -static -mabi=ilp32 -march=$(RISCV_MARCH) -Wall -pedantic -mno-relax $(RISCV_CFLAGS)
 
