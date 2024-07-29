@@ -30,7 +30,7 @@ endif
 
 # Setup required COREV environement variables
 #############################################
-echo $C_MSG">> Setup COREV environement variables :"$C_RST
+# echo $C_MSG">> Setup COREV environement variables :"$C_RST
 # vsim simulator to use for all tools
 setenv CV_SIMULATOR vsim
 # echo "- Simulator : ${CV_SIMULATOR}"
@@ -50,4 +50,4 @@ setenv CV_SW_CC gcc
 #setenv CV_SW_CFLAGS "-static -ffreestanding -w -Wl,--gc-sections -nostartfiles -nostdlib -nodefaultlibs -Ibsp -march=rv32im_zba1p00_zbb1p00_zbc1p00_zbs1p00_zicsr_zca_zcb_zcmp_zcmt_zifencei -Og -Wall -Wextra"
 #setenv CFLAGS ?= -Og -g -static -mabi=ilp32 -march=$(RISCV_MARCH) -Wall -Wextra -pedantic $(RISCV_CFLAGS) -ffreestanding -w -Wl,--gc-sections -nostartfiles -nostdlib -nodefaultlibs -Ibsp #-fdump-rtl-all
 # Instructions to be used
-setenv CV_SW_MARCH rv32imc
+setenv CV_SW_MARCH rv32imc_zicsr

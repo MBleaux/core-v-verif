@@ -17,7 +17,11 @@ You must ignore some files indicated in core-v-verif/core-v-cores/cv32e40s/cv32e
     //${DESIGN_RTL_DIR}/../bhv/cv32e40s_rvfi_data_obi.sv
     //${DESIGN_RTL_DIR}/../bhv/cv32e40s_rvfi.sv
     //${DESIGN_RTL_DIR}/../bhv/cv32e40s_rvfi_sim_trace.sv
+Otherwise, if you intend simulate the UVM, it must have those files.
+
 Also, you must ignore two signals unused in the core-v-verif/cv32e40s/tb/cv32e40s_tb_wrapper.sv:
     //.irq_ack_o              ( irq_ack               ),
     //.irq_id_o               ( irq_id_out            ),
 To simulate, go to the path core-v-verif/cv32e40s/sim/core and run 'make questa-custom-gui CUSTOM_PROG=custom_program CUSTOM=../../tests/programs/custom'
+log -r /*
+run -all
