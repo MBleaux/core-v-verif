@@ -20,9 +20,11 @@ module cv32e40s_tb_wrapper
                 INSTR_RDATA_WIDTH = 32,
                 RAM_ADDR_WIDTH    = 20,
                 BOOT_ADDR         = 'h80,
+                DM_EXCEPTION      = 32'h1A11_0000,
                 DM_HALTADDRESS    = 32'h1A11_0800,
                 HART_ID           = 32'h0000_0000,
-                IMP_PATCH_ID      = 4'h0
+                IMP_PATCH_ID      = 4'h0,
+                TRAP_VECTOR       = 32'h0000_0000
     )
     (input logic         clk_i,
      input logic         rst_ni,
@@ -36,13 +38,17 @@ module cv32e40s_tb_wrapper
     // signals connecting core to memory
     logic                         instr_req;
     logic                         instr_gnt;
+    logic                         instr_gntpar;
     logic                         instr_rvalid;
+    logic                         instr_rvalidpar;
     logic [31:0]                  instr_addr;
     logic [INSTR_RDATA_WIDTH-1:0] instr_rdata;
 
     logic                         data_req;
     logic                         data_gnt;
+    logic                         data_gntpar;
     logic                         data_rvalid;
+    logic                         data_rvalidpar;
     logic [31:0]                  data_addr;
     logic                         data_we;
     logic [3:0]                   data_be;
@@ -63,6 +69,9 @@ module cv32e40s_tb_wrapper
     // interrupts (only timer for now)
     assign irq_sec     = '0;
 
+    assign instr_gntpar = ~instr_gnt;
+    assign instr_rvalidpar = ~instr_rvalid;
+    assign data_gntpar = ~data_gnt;
 //    // core log reports parameter usage and illegal instructions to the logfile
 //    // MIKET: commenting out as the cv32e40s RTL wrapper does this as well.
 //    cv32e40s_core_log
@@ -88,19 +97,25 @@ module cv32e40s_tb_wrapper
          .scan_cg_en_i           ( '0                    ),
 
          .boot_addr_i            ( BOOT_ADDR             ),
+         .dm_exception_addr_i    ( DM_EXCEPTION          ),
          .dm_halt_addr_i         ( DM_HALTADDRESS        ),
          .mhartid_i              ( HART_ID               ),
          .mimpid_patch_i         ( IMP_PATCH_ID          ),
+         .mtvec_addr_i           ( TRAP_VECTOR           ),
 
          .instr_req_o            ( instr_req             ),
          .instr_gnt_i            ( instr_gnt             ),
+         .instr_gntpar_i         ( instr_gntpar          ),
          .instr_rvalid_i         ( instr_rvalid          ),
+         .instr_rvalidpar_i      ( instr_rvalidpar       ),
          .instr_addr_o           ( instr_addr            ),
          .instr_rdata_i          ( instr_rdata           ),
 
          .data_req_o             ( data_req              ),
          .data_gnt_i             ( data_gnt              ),
+         .data_gntpar_i          ( data_gntpar           ),
          .data_rvalid_i          ( data_rvalid           ),
+         .data_rvalidpar_i       ( data_rvalidpar           ),
          .data_we_o              ( data_we               ),
          .data_be_o              ( data_be               ),
          .data_addr_o            ( data_addr             ),

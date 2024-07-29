@@ -11,5 +11,6 @@
 # Author: Robert Balas (balasr@student.ethz.ch)
 # Description: TCL scripts to facilitate simulations
 
-run -all
-exit
+#run -all
+#exit
+log -r /*
