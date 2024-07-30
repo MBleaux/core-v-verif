@@ -1,13 +1,11 @@
 #!/bin/csh -f
 
-# Define color codes for output
 set C_ERR = "\e[1;31m"  # Red
 set C_TOP = "\e[1;32m"  # Green
 set C_MSG = "\e[1;34m"  # Blue
 set C_WRN = "\e[1;35m"  # Magenta
 set C_RST = "\e[1;0m"   # Default
 
-# Set the project directory to the current working directory
 setenv PROJECT_DIR ${cwd}
 
 # CAO setup
@@ -17,7 +15,6 @@ setenv vsim_version "questasim 2023.3"
 echo $vsim_version > .ucdprod
 echo "${C_MSG}>> CAO Setup${C_RST}"
 
-# Check if setcad command is available
 which setcad > /dev/null
 if ($? != 0) then
    echo "${C_WRN}SETCAD DOES NOT WORK: ADD THIS SOURCE IN YOUR ~/.cshrc${C_RST}"
@@ -35,25 +32,12 @@ endif
 
 # Setup required COREV environment variables
 #############################################
-# Set vsim simulator to use for all tools
 setenv CV_SIMULATOR vsim
-
-# Set the core to simulate
 setenv CV_CORE CV32E40S
-
-# Set the toolchain installation path
 setenv CV_SW_TOOLCHAIN /home/share/360-Architecture_Conception_Logiciel/360.1-Projets/360.1.521-FIA_in_RTL/mario/corev-openhw-gcc-centos7-20230622
-
-# Set the prefix of the SW toolchain installation
 setenv CV_SW_PREFIX riscv32-corev-elf-
-
-# Set the compiler to use
 setenv CV_SW_CC gcc
-
-# Set the architecture for the compilation
 setenv CV_SW_MARCH rv32imc_zicsr
-
-# Set the compilation flags
 #setenv CFLAGS "-Og -g -static -mabi=ilp32 -march=${CV_SW_MARCH} -Wall -Wextra -pedantic -ffreestanding -w -Wl,--gc-sections -nostartfiles -nostdlib -nodefaultlibs -Ibsp" #-fdump-rtl-all
 setenv USE_ISS NO
 setenv GUI YES
