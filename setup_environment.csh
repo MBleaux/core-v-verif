@@ -1,6 +1,5 @@
 #!/bin/csh -f
 
-# Define color codes for output
 set C_ERR = "\e[1;31m"  # Red
 set C_TOP = "\e[1;32m"  # Green
 set C_MSG = "\e[1;34m"  # Blue
