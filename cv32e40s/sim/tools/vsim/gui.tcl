@@ -11,4 +11,5 @@
 # Author: Robert Balas (balasr@student.ethz.ch)
 # Description: TCL scripts to facilitate simulations
 
+log -r /*
 set NoQuitOnFinish 1

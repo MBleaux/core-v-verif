@@ -10,5 +10,6 @@ int main(int argc, char *argv[]) {
     for(int i=0; i<b;i++){
         res += a*i;
     }
+    printf("Valor final: %d\n", res);
     return 0;
 }
