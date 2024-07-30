@@ -1,4 +1,4 @@
-First, you must set the environment variables. They're defined in setup_core.sh file. So, run 'source setup_core.sh'.
+First, you must set the environment variables. They're defined in setup_core.sh file. So, run 'source setup_core.sh'
 
 Put your custom_program.c in this path: core-v-verif/cv32e40s/tests/programs/custom/custom_program/custom_program.c
 
