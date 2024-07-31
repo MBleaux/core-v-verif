@@ -98,6 +98,9 @@ module tb_top
         // start running
         #RESET_DEL core_rst_n = 1'b1;
 
+        //#2000ns core_rst_n = 1'b0;
+        //#1000ns core_rst_n = 1'b1;
+
         repeat (3) @(negedge core_clk);
         core_rst_n = 1'b1;
 

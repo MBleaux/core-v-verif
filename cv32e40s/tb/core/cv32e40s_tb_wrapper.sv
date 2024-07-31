@@ -20,7 +20,7 @@ module cv32e40s_tb_wrapper
                 INSTR_RDATA_WIDTH = 32,
                 RAM_ADDR_WIDTH    = 20,
                 BOOT_ADDR         = 'h80,
-                DM_EXCEPTION      = 32'h1A11_0000,
+                DM_EXCEPTION      = 32'h1A11_1000,
                 DM_HALTADDRESS    = 32'h1A11_0800,
                 HART_ID           = 32'h0000_0000,
                 IMP_PATCH_ID      = 4'h0,
@@ -72,6 +72,7 @@ module cv32e40s_tb_wrapper
     assign instr_gntpar = ~instr_gnt;
     assign instr_rvalidpar = ~instr_rvalid;
     assign data_gntpar = ~data_gnt;
+    assign data_rvalidpar = ~data_rvalid;
 //    // core log reports parameter usage and illegal instructions to the logfile
 //    // MIKET: commenting out as the cv32e40s RTL wrapper does this as well.
 //    cv32e40s_core_log
@@ -89,8 +90,34 @@ module cv32e40s_tb_wrapper
 //      );
 
     // instantiate the core
-    cv32e40s_core cv32e40s_core_i
-        (
+    cv32e40s_core #(
+          //.B_EXT                 ( ZBA_ZBB_ZBC_ZBS       ), Modified into rtl/cv32e40s_core.sv
+          .DM_REGION_START       ( 32'h1A110000          ),
+          .DM_REGION_END         ( 32'h1A111000          ),
+          .LFSR0_CFG             ('{ coeffs : 32'h80000057, default_seed : 32'habbacafe }),
+          .LFSR1_CFG             ('{ coeffs : 32'h80000062, default_seed : 32'hbeef1234 }),
+          .LFSR2_CFG             ('{ coeffs : 32'h8000007a, default_seed : 32'ha5a5a5a5 })
+
+          /// .B_EXT            (uvmt_cv32e40s_base_test_pkg::CORE_PARAM_B_EXT),
+          //.CLIC             (uvmt_cv32e40s_base_test_pkg::CORE_PARAM_CLIC),
+          //.CLIC_ID_WIDTH    (uvmt_cv32e40s_base_test_pkg::CORE_PARAM_CLIC_ID_WIDTH),
+          //.DBG_NUM_TRIGGERS (uvmt_cv32e40s_base_test_pkg::CORE_PARAM_DBG_NUM_TRIGGERS),
+          /// .DM_REGION_END    (uvmt_cv32e40s_base_test_pkg::CORE_PARAM_DM_REGION_END),
+          /// .DM_REGION_START  (uvmt_cv32e40s_base_test_pkg::CORE_PARAM_DM_REGION_START),
+          /// .LFSR0_CFG        (uvmt_cv32e40s_base_test_pkg::CORE_PARAM_LFSR0_CFG),
+          /// .LFSR1_CFG        (uvmt_cv32e40s_base_test_pkg::CORE_PARAM_LFSR1_CFG),
+          /// .LFSR2_CFG        (uvmt_cv32e40s_base_test_pkg::CORE_PARAM_LFSR2_CFG),
+          //.M_EXT            (uvmt_cv32e40s_base_test_pkg::CORE_PARAM_M_EXT),
+          //.PMA_CFG          (uvmt_cv32e40s_base_test_pkg::CORE_PARAM_PMA_CFG),
+          //.PMA_NUM_REGIONS  (uvmt_cv32e40s_base_test_pkg::CORE_PARAM_PMA_NUM_REGIONS),
+          //.PMP_GRANULARITY  (uvmt_cv32e40s_base_test_pkg::CORE_PARAM_PMP_GRANULARITY),
+          //.PMP_MSECCFG_RV   (uvmt_cv32e40s_base_test_pkg::CORE_PARAM_PMP_MSECCFG_RV),
+          //.PMP_NUM_REGIONS  (uvmt_cv32e40s_base_test_pkg::CORE_PARAM_PMP_NUM_REGIONS),
+          //.PMP_PMPADDR_RV   (uvmt_cv32e40s_base_test_pkg::CORE_PARAM_PMP_PMPADDR_RV),
+          //.PMP_PMPNCFG_RV   (uvmt_cv32e40s_base_test_pkg::CORE_PARAM_PMP_PMPNCFG_RV),
+          //.RV32             (uvmt_cv32e40s_base_test_pkg::CORE_PARAM_RV32)
+
+         ) cv32e40s_core_i (
          .clk_i                  ( clk_i                 ),
          .rst_ni                 ( rst_ni                ),
          
@@ -110,22 +137,31 @@ module cv32e40s_tb_wrapper
          .instr_rvalidpar_i      ( instr_rvalidpar       ),
          .instr_addr_o           ( instr_addr            ),
          .instr_rdata_i          ( instr_rdata           ),
+         .instr_err_i            ( 1'h0                  ),
 
          .data_req_o             ( data_req              ),
          .data_gnt_i             ( data_gnt              ),
          .data_gntpar_i          ( data_gntpar           ),
          .data_rvalid_i          ( data_rvalid           ),
-         .data_rvalidpar_i       ( data_rvalidpar           ),
+         .data_rvalidpar_i       ( data_rvalidpar        ),
          .data_we_o              ( data_we               ),
          .data_be_o              ( data_be               ),
          .data_addr_o            ( data_addr             ),
          .data_wdata_o           ( data_wdata            ),
          .data_rdata_i           ( data_rdata            ),
+         .data_err_i             ( 1'h0                  ),
 
          // Interrupts verified in UVM environment
          .irq_i                  ( {32{1'b0}}            ),
          //.irq_ack_o              ( irq_ack               ),
          //.irq_id_o               ( irq_id_out            ),
+         .wu_wfe_i               ( 1'h0                  ),
+
+         .clic_irq_i             ( 1'h0                  ),
+         .clic_irq_id_i          ( 5'h00                 ),
+         .clic_irq_level_i       ( 8'h00                 ),
+         .clic_irq_priv_i        ( 2'h3                  ),
+         .clic_irq_shv_i         ( 1'h0                  ),
 
          .debug_req_i            ( debug_req             ),
 
